@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import CoinCard from './components/CointCard';
 import LimitSelector from './components/LimitSelector';
+import FilterInput from './components/FilterInput';
+import SortSelector from './components/SortSelector';
 const API_URL = import.meta.env.VITE_API_URL;
 
 function App() {
@@ -8,6 +10,8 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [limit, setLimit] = useState(10);
+  const [filter, setFilter] = useState('');
+  const [sortBy, setSortBy] = useState('market_cap_desc');
 
   useEffect(() => {
     const fetchCoins = async () => {
@@ -17,7 +21,7 @@ function App() {
         );
         if (!res.ok) throw new Error('Failed to fetch data');
         const data = await res.json();
-        console.log(data);
+
         setCoins(data);
       } catch (err) {
         setError(err.message);
@@ -29,9 +33,27 @@ function App() {
     fetchCoins();
   }, [limit]);
 
+  const filteredCoins = coins
+    .filter((coin) => {
+      return (
+        coin.name.toLowerCase().includes(filter.toLocaleLowerCase()) ||
+        coin.symbol.toLowerCase().includes(filter.toLocaleLowerCase())
+      );
+    })
+    .slice()
+    .sort((a, b) => {
+      switch (sortBy) {
+        case 'market_cap_desc':
+          return b.market_cap - a.market_cap;
+        case 'market_cap_asc':
+          return b.market_cap - a.market_cap;
+      }
+    });
+
   return (
     <div>
       <h1>
+        includes
         <img
           src='/favicon.ico'
           alt='Crypto Dash Icon'
@@ -41,12 +63,20 @@ function App() {
       </h1>
       {loading && <p>Loading...</p>}
       {error && <div className='error'>{error}</div>}
-      <LimitSelector limit={limit} onLimitChange={setLimit} />
+
+      <div className='top-controls'>
+        <FilterInput filter={filter} onFilterChange={setFilter} />
+        <LimitSelector limit={limit} onLimitChange={setLimit} />
+        <SortSelector sortBy={sortBy} onSortChange={setSortBy} />
+      </div>
+
       {!loading && !error && (
         <main className='grid'>
-          {coins.map((coin) => (
-            <CoinCard key={coin.id} coin={coin} />
-          ))}
+          {filteredCoins.length > 0 ? (
+            filteredCoins.map((coin) => <CoinCard key={coin.id} coin={coin} />)
+          ) : (
+            <p>No Matches</p>
+          )}
         </main>
       )}
     </div>
