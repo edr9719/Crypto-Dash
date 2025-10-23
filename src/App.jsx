@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import CoinCard from './components/CointCard';
-import LimitSelector from './components/LimitSelector';
-import FilterInput from './components/FilterInput';
-import SortSelector from './components/SortSelector';
+import HomePage from './pages/home';
+import AboutPage from './pages/about';
+import { Routes, Route } from 'react-router';
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 function App() {
@@ -33,53 +33,25 @@ function App() {
     fetchCoins();
   }, [limit]);
 
-  const filteredCoins = coins
-    .filter((coin) => {
-      return (
-        coin.name.toLowerCase().includes(filter.toLocaleLowerCase()) ||
-        coin.symbol.toLowerCase().includes(filter.toLocaleLowerCase())
-      );
-    })
-    .slice()
-    .sort((a, b) => {
-      switch (sortBy) {
-        case 'market_cap_desc':
-          return b.market_cap - a.market_cap;
-        case 'market_cap_asc':
-          return b.market_cap - a.market_cap;
-      }
-    });
-
   return (
-    <div>
-      <h1>
-        includes
-        <img
-          src='/favicon.ico'
-          alt='Crypto Dash Icon'
-          style={{ width: '24px', height: '24px', marginRight: '8px' }}
-        />
-        Crypto Dash
-      </h1>
-      {loading && <p>Loading...</p>}
-      {error && <div className='error'>{error}</div>}
-
-      <div className='top-controls'>
-        <FilterInput filter={filter} onFilterChange={setFilter} />
-        <LimitSelector limit={limit} onLimitChange={setLimit} />
-        <SortSelector sortBy={sortBy} onSortChange={setSortBy} />
-      </div>
-
-      {!loading && !error && (
-        <main className='grid'>
-          {filteredCoins.length > 0 ? (
-            filteredCoins.map((coin) => <CoinCard key={coin.id} coin={coin} />)
-          ) : (
-            <p>No Matches</p>
-          )}
-        </main>
-      )}
-    </div>
+    <Routes>
+      <Route
+        path='/'
+        element={
+          <HomePage
+            coins={coins}
+            filter={filter}
+            setFilter={setFilter}
+            limit={limit}
+            setLimit={setLimit}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            loading={loading}
+            error={error}
+          />
+        }
+      />
+    </Routes>
   );
 }
 
