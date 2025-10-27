@@ -1,16 +1,44 @@
-# React + Vite
+# Crypto-Dash
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Crypto-Dash es una aplicación web para visualizar información de criptomonedas en tiempo real.
 
-Currently, two official plugins are available:
+## Características
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Consulta precios, cambios porcentuales y capitalización de mercado de las principales criptomonedas.
+- Filtra y ordena monedas por nombre, símbolo, precio, cambio y market cap.
+- Navegación entre páginas usando React Router (Home, About, Coin Details, Not Found).
+- Interfaz responsiva y moderna desarrollada con React y Vite.
+- Consumo de datos desde la API pública de CoinGecko.
 
-## React Compiler
+## Tecnologías utilizadas
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React
+- Vite
+- JavaScript
+- CSS
+- React Router
+- CoinGecko API
 
-## Expanding the ESLint configuration
+## Demo
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+La aplicación está desplegada en GitHub Pages:
+[https://edr9719.github.io/Crypto-Dash](https://edr9719.github.io/Crypto-Dash)
+
+## Instalación y ejecución local
+
+```bash
+npm install
+npm run dev
+```
+
+## Despliegue
+
+Para desplegar en GitHub Pages:
+
+```bash
+npm run deploy
+```
+
+---
+
+Desarrollado por [edr9719](https://github.com/edr9719)
